@@ -1,45 +1,45 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import { authenticate, isAuthenticated, login } from '../api/UserApi.js'
+import { authenticate, isAuthenticated, login} from '../api/UserApi'
 
 const Login = () => {
     const user_info = isAuthenticated();
-    const [user, setUser] = useState({
-        email: 'darsaqib4979@gmail.con',
-        password: '112',
-        error: '',
-        success: false
+    const [user , setUser]= useState({
+        email:'',
+        password:'',
+        error:'',
+        success:false
     })
-    let navigate = useNavigate();
+    let navigate  = useNavigate();
 
-    const { email, password, error, success } = user;
+    const {email,password,error,success}=user;
 
-    const handleLogin = e => {
-
+    const handleLogin=e=>{
+       
         e.preventDefault()
         login(user)
-            .then(data => {
-                if (data.error) {
-                    setUser({ ...user, error: data.error })
-                } else {
-                    setUser({ success: true })
-                    authenticate(data)
-                }
-            })
+        .then(data=>{
+            if(data.error){
+               setUser({...user,error:data.error})
+            }else{
+                setUser({success:true})
+                authenticate(data)
+            }
+        })
     }
-    const showError = () => {
-        if (error) {
+    const showError=()=>{
+        if(error){
             return <div className='alert alert-danger'>{error}</div>
         }
     }
-    const redirect = () => {
-        if (success) {
+    const redirect = ()=>{
+        if(success){
             console.log(user_info)
-            if (user_info && user_info.user.role === 1) {
+            if(user_info && user_info.user.role===1){
                 navigate('/admin/dashboard')
             }
-            else {
+            else{
                 navigate('/')
             }
         }
@@ -47,7 +47,7 @@ const Login = () => {
     return (
         <>
             <div className='container-fluid'>
-                <Navbar />
+                <Navbar/>
                 {showError()}
                 {redirect()}
                 <div className='d-flex flex-column justify-content center align-items-center py-5'>
@@ -61,7 +61,7 @@ const Login = () => {
                                 <div className='input-group w-100 mb-3'>
                                     <div className='input-group-text'><i className='bi bi-envelope'></i></div>
                                     <div className='form-floating shadow-lg'>
-                                        <input type='email' className='form-control' onChange={e => setUser({ ...user, email: e.target.value })}
+                                        <input type='email' className='form-control' onChange={e=>setUser({...user,email:e.target.value})}
                                             id='email' placeholder='Enter your last email' />
                                         <label for='email'>Email</label>
                                     </div>
@@ -71,8 +71,8 @@ const Login = () => {
                                 <div className='input-group'>
                                     <span className='input-group-text '><i className='bi bi-key' /></span>
                                     <div className='form-floating shadow-lg'>
-                                        <input type='password' className='form-control' id='password' placeholder='Enter your password'
-                                            onChange={e => setUser({ ...user, password: e.target.value })}></input>
+                                        <input type='password' className='form-control' id='password' placeholder='Enter your password' 
+                                        onChange={e=>setUser({...user,password:e.target.value})}></input>
                                         <label for='password'>password</label>
                                     </div>
                                 </div>

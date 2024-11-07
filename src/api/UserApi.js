@@ -1,6 +1,6 @@
 import { API } from "../Config"
 
-const token=''
+// const token=''
 export const register = (user) => {
     return fetch(`${API}/register`, {
         method: "POST",
@@ -16,6 +16,7 @@ export const register = (user) => {
             return console.log("error in fetching", err)
         })
 }
+//email verification
 export const emailVerify = token => {
     return fetch(`${API}/confirm/${token}`, {
         method: 'GET',
