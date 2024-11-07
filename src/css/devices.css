@@ -1,0 +1,19 @@
+.devices {
+    text-align: left; /* Aligns content to the left */
+    padding-left: 0px; /* Add some padding on the left */
+  }
+  
+  h2 {
+    margin-bottom: 20px; /* Adds space between the heading and the image */
+  }
+  
+  .plus-logo {
+    width: 90px; /* Adjust the size of the image */
+    height: 100px; /* Make sure width and height are equal for circular shape */
+    border-radius: 90%; /* Make the image circular */
+    object-fit: cover; /* Prevents image distortion */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow effect */
+    margin-bottom: 20px; /* Adds some space below the image if needed */
+    margin-left: 1px;
+    margin-top:10px;
+  }

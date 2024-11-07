@@ -1,0 +1,30 @@
+.custom-card {
+    width: 200px; /* Set a fixed width for the card */
+    height: 300px; /* Set a fixed height for the card */
+    margin: auto; /* Center the card horizontally */
+  }
+  
+  .custom-img {
+    width: 100%; /* Make the image take full width of the card */
+    height: 150px; /* Set a fixed height for the image */
+    object-fit: cover; /* Maintain aspect ratio and crop to fit */
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure content is well spaced */
+    padding: 10px; /* Add padding inside the card body */
+  }
+  
+  .card-title {
+    font-size: 1rem; /* Adjust font size if needed */
+  }
+  
+  .card-text {
+    font-size: 0.875rem; /* Adjust font size if needed */
+  }
+  
+  .btn {
+    font-size: 0.875rem; /* Adjust button font size if needed */
+  }
