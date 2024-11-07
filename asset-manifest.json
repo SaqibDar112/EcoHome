@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/EcoHome/static/css/main.8ff09c77.css",
-    "main.js": "/EcoHome/static/js/main.3dc26757.js",
+    "main.js": "/EcoHome/static/js/main.4ae99751.js",
     "static/js/453.e9e8fea1.chunk.js": "/EcoHome/static/js/453.e9e8fea1.chunk.js",
     "index.html": "/EcoHome/index.html",
     "main.8ff09c77.css.map": "/EcoHome/static/css/main.8ff09c77.css.map",
-    "main.3dc26757.js.map": "/EcoHome/static/js/main.3dc26757.js.map",
+    "main.4ae99751.js.map": "/EcoHome/static/js/main.4ae99751.js.map",
     "453.e9e8fea1.chunk.js.map": "/EcoHome/static/js/453.e9e8fea1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8ff09c77.css",
-    "static/js/main.3dc26757.js"
+    "static/js/main.4ae99751.js"
   ]
 }
