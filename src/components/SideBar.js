@@ -24,6 +24,7 @@ const Sidebar = () => {
                 <li><Link to="/redeemcoins">Redeem Coins</Link></li>
                 <li><Link to="/elec-consumption">Consumption Calculator</Link></li>
                 <li><Link to="/about-us">About Us</Link></li>
+                <li><Link to="/UserReviews">Review</Link></li>
                 <li><Link to="/help">Help</Link></li>
             </ul>
           {user &&

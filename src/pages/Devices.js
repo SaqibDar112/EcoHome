@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-// import plus from './plus.jpeg';
+import { Link } from 'react-router-dom'; 
+// import plusImage from './plus.jpeg';
 import '../css/devices.css';
 import Appliances from './MyAppliances';
 
@@ -15,11 +15,8 @@ const MyDevices = () => {
   return (
    <div className='row justify-content-start'>
     <h2 className='text-start p-3'>My devices</h2>
-    <Appliances onAddDevice={handleAddDevice}/>
-    
-    
+    <Appliances onAddDevice={handleAddDevice}/>   
    </div>
   );
 };
-
 export default MyDevices;

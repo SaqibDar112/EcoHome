@@ -12,6 +12,7 @@ import Appliances from './pages/MyAppliances';
 import Card from './pages/Card';
 import DeviceSelector from './pages/MyAppliances';
 import Footer from './components/Footer';
+import UserReviews from './components/UserReviews';
 
 const MyRoutes = () => {
   const [addedDevices, setAddedDevices] = useState([]);
@@ -40,6 +41,7 @@ const MyRoutes = () => {
         <Route path='/my-appliances' element={<Appliances onAddDevice={handleAddDevice} />} />
         <Route path='/card' element={<Card />} />
         <Route path='/device' element={<DeviceSelector />} />
+        <Route path='/UserReviews' element={<UserReviews />} />
       </Routes>
       <Footer/>
     </BrowserRouter>
