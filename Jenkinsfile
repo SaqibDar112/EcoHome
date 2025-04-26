@@ -26,7 +26,7 @@ pipeline {
         stage('Run New Container') {
             steps {
                 echo "Running new container..."
-                sh "docker run -d -p ${HOST_PORT}:${CONTAINER_PORT} --name ${CONTAINER_NAME} ${IMAGE_NAME}"
+                sh 'docker run -d -p 3000:80 --name eco-home-container eco-home-win'
             }
         }
     }
