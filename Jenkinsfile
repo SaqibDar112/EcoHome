@@ -2,32 +2,67 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'eco-home-win'
-        CONTAINER_NAME = 'eco-home-container'
-        HOST_PORT = '3000'
-        CONTAINER_PORT = '80'
+        // Optional environment variables
     }
 
     stages {
-        stage('Build Docker Image') {
+        stage('Checkout') {
             steps {
-                echo "Building Docker image: ${IMAGE_NAME}"
-                sh "docker build -t ${IMAGE_NAME} ."
+                git 'https://github.com/SaqibDar112/EcoHome/'
             }
         }
 
-        stage('Stop & Remove Old Container') {
+        stage('Build') {
             steps {
-                echo "Removing old container if exists..."
-                sh "docker rm -f ${CONTAINER_NAME} || true"
+                sh 'npm install'
+                sh 'npm run build'
             }
         }
 
-        stage('Run New Container') {
+        stage('Dockerize') {
             steps {
-                echo "Running new container..."
-                sh 'docker run -d -p 3000:80 --name eco-home-container eco-home-win'
+                script {
+                    docker.build('react-app')
+                }
             }
+        }
+
+        stage('Deploy Locally') {
+            steps {
+                script {
+                    sh 'mkdir -p /tmp/ecohome-deploy'
+                    sh 'cp -r build/* /tmp/ecohome-deploy/'
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Stop and remove any old container if running
+                    sh 'docker rm -f ecohome-container || true'
+                    // Run the new container
+                    sh 'docker run -d -p 3000:3000 --name ecohome-container react-app'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'npm test'
+            }
+        }
+
+        stage('Clean Up') {
+            steps {
+                sh 'docker system prune -f'
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
