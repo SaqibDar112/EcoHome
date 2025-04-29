@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/SaqibDar112/EcoHome/'
+                git branch: 'main', url: 'https://github.com/SaqibDar112/EcoHome.git'
             }
         }
 
