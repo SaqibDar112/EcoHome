@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'react-app:latest'
+        DOCKER_USERNAME = credentials('docker-username')  // Add Docker username credentials
+        DOCKER_PASSWORD = credentials('docker-password')  // Add Docker password credentials
     }
 
     stages {
@@ -12,10 +14,18 @@ pipeline {
             }
         }
 
+        stage('Docker Login') {
+            steps {
+                script {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t $DOCKER_IMAGE .'
+                    sh 'docker build --no-cache -t $DOCKER_IMAGE . || (echo "Docker build failed" && exit 1)'
                 }
             }
         }
@@ -23,7 +33,6 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    // You can add Docker login and push logic here if needed
                     sh 'docker push $DOCKER_IMAGE'
                 }
             }
