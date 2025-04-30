@@ -2,59 +2,38 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "react-app"
-        DOCKER_TAG = "latest"
-        DOCKER_REGISTRY = "localhost:5000" // Or the appropriate Docker registry
+        DOCKER_IMAGE = 'react-app'
+        DOCKER_TAG = 'latest'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/SaqibDar112/EcoHome.git'
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image
-                    sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
+                    sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG ."
                 }
             }
         }
 
-        stage('Test') {
+        stage('Optional: Push to Docker Hub') {
+            when {
+                expression { return false } // Set to true if pushing
+            }
             steps {
-                script {
-                    // Run tests (if you have any tests)
-                    sh 'docker run --rm $DOCKER_IMAGE:$DOCKER_TAG npm test'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    script {
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                        sh "docker tag $DOCKER_IMAGE:$DOCKER_TAG $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG"
+                        sh "docker push $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG"
+                    }
                 }
             }
-        }
-
-        stage('Push') {
-            steps {
-                script {
-                    // Push Docker image to your Docker registry
-                    sh 'docker push $DOCKER_REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG'
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    // Deploy the Docker container (can be locally or on a server)
-                    sh 'docker run -d -p 3001:3000 --name ecohome-container $DOCKER_IMAGE:$DOCKER_TAG'
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            // Cleanup (stop and remove the container if necessary)
-            sh 'docker rm -f ecohome-container || true'
         }
     }
 }
