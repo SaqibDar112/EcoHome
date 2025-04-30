@@ -3,8 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'react-app:latest'
-        DOCKER_USERNAME = credentials('docker-username')  // Add Docker username credentials
-        DOCKER_PASSWORD = credentials('docker-password')  // Add Docker password credentials
+        DOCKER_CREDENTIALS = 'docker-cred' // Use your Docker Hub credentials ID
     }
 
     stages {
@@ -14,18 +13,10 @@ pipeline {
             }
         }
 
-        stage('Docker Login') {
-            steps {
-                script {
-                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build --no-cache -t $DOCKER_IMAGE . || (echo "Docker build failed" && exit 1)'
+                    sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
         }
@@ -33,15 +24,14 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-            // Login to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                sh '''
-                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                    docker push $DOCKER_IMAGE
-                '''
+                    withCredentials([usernamePassword(credentialsId: "$DOCKER_CREDENTIALS", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        // Log in to Docker Hub using credentials
+                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                        // Push the Docker image to Docker Hub
+                        sh 'docker push $DOCKER_IMAGE'
+                    }
+                }
             }
         }
     }
-}
-}
 }
