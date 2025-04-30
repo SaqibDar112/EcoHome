@@ -14,7 +14,7 @@ const MyDevices = () => {
   };
   return (
    <div className='row justify-content-start'>
-    <h2 className='text-start p-3'>Your devices</h2>
+    <h2 className='text-start p-3'>My devices</h2>
     <Appliances onAddDevice={handleAddDevice}/>   
    </div>
   );
