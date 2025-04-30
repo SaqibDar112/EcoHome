@@ -2,36 +2,29 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'react-app'
-        DOCKER_TAG = 'latest'
+        DOCKER_IMAGE = 'react-app:latest'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git 'https://github.com/SaqibDar112/EcoHome.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG ."
+                    sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
         }
 
-        stage('Optional: Push to Docker Hub') {
-            when {
-                expression { return false } // Set to true if pushing
-            }
+        stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    script {
-                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                        sh "docker tag $DOCKER_IMAGE:$DOCKER_TAG $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG"
-                        sh "docker push $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG"
-                    }
+                script {
+                    // You can add Docker login and push logic here if needed
+                    sh 'docker push $DOCKER_IMAGE'
                 }
             }
         }
