@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Run New Container') {
             steps {
-                sh 'docker run -d -p 3001:80 --name ecohome-container ecohome-react-app'
+                sh 'docker run -d -p 3001:80 --name ecohome-container saqibdar/react-app:latest'
             }
         }
     }
