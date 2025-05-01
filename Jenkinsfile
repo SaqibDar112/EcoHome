@@ -16,7 +16,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('saqibdar/react-app:latest')
+                    docker.build('saqibdar/react-app:latest', '--no-cache')
                 }
             }
         }
@@ -33,13 +33,20 @@ pipeline {
                 }
             }
         }
-
-        stage('Run New Container') {
-            steps {
-                script {
-                    sh 'docker run -d -p 3002:80 --name echohome-container-v2 saqibdar/react-app:latest'
-                }
-            }
+        stage('Deploy New Container') {
+    steps {
+        script {
+            // Stop and remove the old container if it exists
+            sh '''
+                if [ $(docker ps -aq -f name=ecohome-container-v2) ]; then
+                    docker stop ecohome-container-v2 || true
+                    docker rm ecohome-container-v2 || true
+                fi
+            '''
+            // Run the new container on port 3002
+            sh 'docker run -d -p 3002:80 --name ecohome-container-v2 --restart unless-stopped saqibdar/react-app:latest'
         }
+    }
+}
     }
 }
