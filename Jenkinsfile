@@ -33,5 +33,10 @@ pipeline {
                 }
             }
         }
+        stage('Run New Container') {
+            steps {
+                sh 'docker run -d -p 3000:80 --name ecohome-container ecohome-react-app'
+            }
+        }
     }
 }
