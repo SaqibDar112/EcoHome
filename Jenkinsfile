@@ -33,9 +33,12 @@ pipeline {
                 }
             }
         }
+
         stage('Run New Container') {
             steps {
-                docker run -d -p 3002:80 --name ecohome-container-v2 saqibdar/react-app:latest
+                script {
+                    sh 'docker run -d -p 3002:80 --name ecohome-container-v2 saqibdar/react-app:latest'
+                }
             }
         }
     }
