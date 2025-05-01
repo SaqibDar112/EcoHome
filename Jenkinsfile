@@ -16,7 +16,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('saqibdar/react-app:latest', '--no-cache')
+                    docker.build('saqibdar/react-app:latest', '.')
                 }
             }
         }
