@@ -37,7 +37,7 @@ pipeline {
         stage('Run New Container') {
             steps {
                 script {
-                    sh 'docker run -d -p 3002:80 --name ecohome-container-v2 saqibdar/react-app:latest'
+                    sh 'docker run -d -p 3002:80 --name echohome-container-v2 saqibdar/react-app:latest'
                 }
             }
         }
